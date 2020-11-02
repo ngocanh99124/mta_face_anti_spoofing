@@ -22,6 +22,14 @@ def check_image(image, model_dir):
     else:
         return True
 
+def get_face_bbox(image, model_test,  face_model, img_heights, exact_thresh):
+    temp = image
+    image, image_bbox = faceboxes_detect(temp, face_model, img_heights, exact_thresh)
+    if image is None:
+        image, image_bbox = model_test.get_bbox(temp)
+        if image is None:
+            return -1
+    return image
 
 def dl_face_spoof_detect(image, model_dir, model_test, image_cropper, face_model, img_heights, exact_thresh):
     temp = image
@@ -115,7 +123,13 @@ if __name__ == "__main__":
         if check_result:
             print(link_image, "is fake with score=", conf)
             results.append([link_image, 1, conf])
-        elif fake_detection(img, sigma_, sigmaMax, k, thresh, ctx, queue, mf, prg, delta):
+            continue
+        img = get_bbox(img, model_test,  face_model, img_heights, exact_thresh)
+        if img == -1:
+            print(link_image, "is fake")
+            results.append([link_image, 2, conf])
+            continue
+        if fake_detection(img, saigma_, sigmaMax, k, thresh, ctx, queue, mf, prg, delta):
             print(link_image, "is fake")
             results.append([link_image, 2, conf])
         else:
