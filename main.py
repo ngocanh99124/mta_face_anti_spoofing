@@ -120,7 +120,7 @@ if __name__ == "__main__":
         if check_result:
             print(link_image, "is fake with score=", conf)
             results.append([link_image, 1, conf])
-        elif fake_detection(img, sigma_, sigmaMax, k, thresh, ctx, queue, mf, prg, delta):
+        elif fake_detection(img[bbox[0]:bbox[0]+bbox[2],bbox[1]:bbox[1]+bbox[3]], sigma_, sigmaMax, k, thresh, ctx, queue, mf, prg, delta):
             print(link_image, "is fake")
             results.append([link_image, 2, conf])
         else:
