@@ -21,6 +21,7 @@ def faceboxes_detect(image, face_model, img_heights, exact_thresh):
                     image_rs = img
         if old_conf > exact_thresh:
             break
+    print(box, image.shape(1))
     return image_rs, box
 
 if __name__ == '__main__':
