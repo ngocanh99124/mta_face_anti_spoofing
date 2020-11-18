@@ -159,6 +159,10 @@ def is_moire(img, ctx, queue, mf, prg):
     return thres
 
 def fake_detection(img_, sigma_, sigmaMax, k, thresh, ctx, queue, mf, prg, delta):
+    try:
+        img_ = cv2.cvtColor(img_, cv2.COLOR_BGR2GRAY)
+    except:
+        img_ = img_
     sigma = sigma_
     min_thres = 1
     dd_img = False
@@ -186,7 +190,7 @@ def fake_detection(img_, sigma_, sigmaMax, k, thresh, ctx, queue, mf, prg, delta
                             min_thres = thres
                         if (thres < thresh):
                             return True
-        
+
         sigma += delta
     return False
 
